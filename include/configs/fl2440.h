@@ -188,9 +188,11 @@
 #define	CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_SIZE		0x10000	/* Total Size of Environment Sector */
 
+#define DEBUG 1
+#define level 0
 #define CONFIG_CMD_NAND
 #define CONFIG_NAND_S3C2440
 #define CONFIG_SYS_MAX_NAND_DEVICE 1
-#define CONFIG_SYS_NAND_BASE 	0x08000000
+#define CONFIG_SYS_NAND_BASE 	0x4E000000 /* Controller base address. */
 
 #endif	/* __CONFIG_H */
