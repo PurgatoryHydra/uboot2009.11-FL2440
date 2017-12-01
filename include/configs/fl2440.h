@@ -62,8 +62,8 @@
 #define CONFIG_NET_MULTI
 #define CONFIG_DRIVER_DM9000  /* This is used in /drivers/net/Makefile to determine which netcard to use. */
 #define CONFIG_DM9000_BASE	0x20000000
-#define DM9000_IO 	0x20000000
-#define DM9000_DATA 	0x20000004
+#define DM9000_IO 			0x20000000
+#define DM9000_DATA 		0x20000004
 
 #define CONFIG_CMD_PING
 
@@ -187,5 +187,10 @@
 
 #define	CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_SIZE		0x10000	/* Total Size of Environment Sector */
+
+#define CONFIG_CMD_NAND
+#define CONFIG_NAND_S3C2440
+#define CONFIG_SYS_MAX_NAND_DEVICE 1
+#define CONFIG_SYS_NAND_BASE 	0x08000000
 
 #endif	/* __CONFIG_H */
