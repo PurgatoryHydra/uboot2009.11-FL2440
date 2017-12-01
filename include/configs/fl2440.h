@@ -60,7 +60,7 @@
 #define CONFIG_CMD_NET
 
 #define CONFIG_NET_MULTI
-#define CONFIG_DRIVER_DM9000  /* This is used in /drivers/net/Makefileto determine which netcard to use. */
+#define CONFIG_DRIVER_DM9000  /* This is used in /drivers/net/Makefile to determine which netcard to use. */
 #define CONFIG_DM9000_BASE	0x20000000
 #define DM9000_IO 	0x20000000
 #define DM9000_DATA 	0x20000004
