@@ -114,8 +114,8 @@ start_code:
 	orr	r0, r0, #0xd3
 	msr	cpsr, r0
 
-	bl	coloured_LED_init
-	bl	red_LED_on
+/*	bl	coloured_LED_init*/
+/*	bl	red_LED_on*/
 
 #if	defined(CONFIG_AT91RM9200DK) || defined(CONFIG_AT91RM9200EK)
 	/*
@@ -131,19 +131,11 @@ copyex:
 	bne	copyex
 #endif
 
-#if defined(CONFIG_S3C2400) || defined(CONFIG_S3C2410)
-	/* turn off the watchdog */
-
-# if defined(CONFIG_S3C2400)
-#  define pWTCON	0x15300000
-#  define INTMSK	0x14400008	/* Interupt-Controller base addresses */
-#  define CLKDIVN	0x14800014	/* clock divisor register */
-#else
-#  define pWTCON	0x53000000
-#  define INTMSK	0x4A000008	/* Interupt-Controller base addresses */
-#  define INTSUBMSK	0x4A00001C
-#  define CLKDIVN	0x4C000014	/* clock divisor register */
-# endif
+/* turn off the watchdog */
+# define pWTCON		0x53000000
+# define INTMSK		0x4A000008	/* Interupt-Controller base addresses */
+# define INTSUBMSK	0x4A00001C
+# define CLKDIVN	0x4C000014	/* clock divisor register */
 
 	ldr	r0, =pWTCON
 	mov	r1, #0x0
@@ -155,18 +147,16 @@ copyex:
 	mov	r1, #0xffffffff
 	ldr	r0, =INTMSK
 	str	r1, [r0]
-# if defined(CONFIG_S3C2410)
-	ldr	r1, =0x3ff
+
+	ldr	r1, =0x7fff
 	ldr	r0, =INTSUBMSK
 	str	r1, [r0]
-# endif
 
-	/* FCLK:HCLK:PCLK = 1:2:4 */
-	/* default FCLK is 120 MHz ! */
+	/* FCLK:HCLK:PCLK = 1:4:8 */
+	/* FCLK = 400M, HCLK = 100M, PCLK = 50M */
 	ldr	r0, =CLKDIVN
-	mov	r1, #3
+	mov	r1, #5
 	str	r1, [r0]
-#endif	/* CONFIG_S3C2400 || CONFIG_S3C2410 */
 
 	/*
 	 * we do sys-critical inits only at reboot,
