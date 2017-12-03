@@ -2009,6 +2009,25 @@ static int nand_write(struct mtd_info *mtd, loff_t to, size_t len,
 	struct nand_chip *chip = mtd->priv;
 	int ret;
 
+#ifdef ENABLE_CMD_NAND_YAFFS
+	int oldopsmode = 0;
+	if(mtd->rw_oob == 1)
+	{
+		size_t oobsize = mtd->oobsize;
+		size_t datasize = mtd->writesize;
+		int i = 0;
+		uint8_t oobtemp[oobsize];
+		int datapages = 0;
+		datapages = len/(datasize);
+		for(i = 0; i < datapages; i++)
+		{
+			memcpy((void *)oobtemp, (void *)(buf+datasize*(i+1)), oobsize);
+			memmove((void *)(buf+datasize*(i+1)), (void *)(buf+datasize*(i+1)+oobsize), (datapages-(i+1))*datasize+(datapages-1)*oobsize);
+			memcpy((void *)(buf+datapages*(datasize+oobsize)-oobsize), (void *)(oobtemp), oobsize);
+		}
+	}
+#endif
+
 	/* Do not allow reads past end of device */
 	if ((to + len) > mtd->size)
 		return -EINVAL;
@@ -2019,13 +2038,32 @@ static int nand_write(struct mtd_info *mtd, loff_t to, size_t len,
 
 	chip->ops.len = len;
 	chip->ops.datbuf = (uint8_t *)buf;
+
+#ifdef ENABLE_CMD_NAND_YAFFS
+	if(mtd->rw_oob != 1)
+	{
+		chip->ops.oobbuf = NULL;
+	}
+	else
+	{
+		chip->ops.oobbuf = (uint8_t *)(buf + len);
+		chip->ops.ooblen = mtd->oobsize;
+		oldopsmode = chip->ops.mode;
+		chip->ops.mode = MTD_OOB_RAW;
+	}
+#else
 	chip->ops.oobbuf = NULL;
+#endif
 
 	ret = nand_do_write_ops(mtd, to, &chip->ops);
 
 	*retlen = chip->ops.retlen;
 
 	nand_release_device(mtd);
+
+#ifdef ENABLE_CMD_NAND_YAFFS
+	chip->ops.mode = oldopsmode;
+#endif
 
 	return ret;
 }

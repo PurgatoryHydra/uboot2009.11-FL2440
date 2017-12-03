@@ -104,7 +104,8 @@
 
 
 #define CONFIG_BOOTDELAY	3
-/*#define CONFIG_BOOTARGS	"root=ramfs devfs=mount console=ttySA0,9600" */
+//#define CONFIG_BOOTARGS 	"noinitrd root=/dev/mtdblock 2 init=/linuxrc console=ttySA0 rootfstype=yaffs" 
+#define CONFIG_BOOTARGS 	"initrd=0x31000000,0x3094cc root=/dev/ram init=/linuxrc console=ttySA0" 
 #define CONFIG_ETHADDR		08:00:3e:26:0a:5b 
 #define CONFIG_NETMASK      255.255.0.0
 #define CONFIG_IPADDR		169.254.255.38
@@ -122,7 +123,7 @@
  * Miscellaneous configurable options
  */
 #define	CONFIG_SYS_LONGHELP				/* undef to save memory		*/
-#define	CONFIG_SYS_PROMPT		"SMDK2410 # "	/* Monitor Command Prompt	*/
+#define	CONFIG_SYS_PROMPT		"FL2440 # "	/* Monitor Command Prompt	*/
 #define	CONFIG_SYS_CBSIZE		256		/* Console I/O Buffer Size	*/
 #define	CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE+sizeof(CONFIG_SYS_PROMPT)+16) /* Print Buffer Size */
 #define	CONFIG_SYS_MAXARGS		16		/* max number of command args	*/
@@ -188,11 +189,12 @@
 #define	CONFIG_ENV_IS_IN_FLASH	1
 #define CONFIG_ENV_SIZE		0x10000	/* Total Size of Environment Sector */
 
-#define DEBUG 1
+/*#define DEBUG 1*/
 #define level 0
 #define CONFIG_CMD_NAND
 #define CONFIG_NAND_S3C2440
 #define CONFIG_SYS_MAX_NAND_DEVICE 1
 #define CONFIG_SYS_NAND_BASE 	0x4E000000 /* Controller base address. */
+#define ENABLE_CMD_NAND_YAFFS
 
 #endif	/* __CONFIG_H */

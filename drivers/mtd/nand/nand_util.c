@@ -481,6 +481,27 @@ int nand_write_skip_bad(nand_info_t *nand, loff_t offset, size_t *length,
 	size_t len_incl_bad;
 	u_char *p_buffer = buffer;
 
+#ifdef ENABLE_CMD_NAND_YAFFS
+	if(nand->rw_oob == 1)
+	{
+		size_t oobsize = nand->oobsize;
+		size_t datasize = nand->writesize;
+		int datapages = 0;
+
+		printf("offset: \r\n", offset);
+
+		if(((*length)%(nand->oobsize + nand->writesize)) != 0)
+		{
+			printf("length error.\n");
+			return -EINVAL;
+		}
+
+		datapages = *length / (datasize + oobsize);
+		*length = datapages * datasize;
+		left_to_write = *length;
+	}
+#endif
+
 	/* Reject writes, which are not page aligned */
 	if ((offset & (nand->writesize - 1)) != 0 ||
 	    (*length & (nand->writesize - 1)) != 0) {
@@ -517,11 +538,22 @@ int nand_write_skip_bad(nand_info_t *nand, loff_t offset, size_t *length,
 			continue;
 		}
 
+#ifdef ENABLE_CMD_NAND_YAFFS
+		if(nand->skipfirstblk == 1)
+		{
+			nand->skipfirstblk = 0;
+			printf("skip the first good block. %llx \n", offset & ~(nand->erasesize - 1));
+			offset += nand->erasesize - block_offset;
+			continue;
+		}
+#endif
+
 		if (left_to_write < (nand->erasesize - block_offset))
 			write_size = left_to_write;
 		else
 			write_size = nand->erasesize - block_offset;
 
+		printf("\rWriting at 0x%llx -- ", offset);
 		rval = nand_write (nand, offset, &write_size, p_buffer);
 		if (rval != 0) {
 			printf ("NAND write to offset %llx failed %d\n",
@@ -532,7 +564,18 @@ int nand_write_skip_bad(nand_info_t *nand, loff_t offset, size_t *length,
 
 		left_to_write -= write_size;
 		offset        += write_size;
+#ifdef ENABLE_CMD_NAND_YAFFS
+		if(nand->rw_oob == 1)
+		{
+			p_buffer += write_size + (write_size/nand->writesize*nand->oobsize);
+		}
+		else
+		{
+			p_buffer += write_size;
+		}
+#else
 		p_buffer      += write_size;
+#endif
 	}
 
 	return 0;

@@ -389,7 +389,22 @@ int do_nand(cmd_tbl_t * cmdtp, int flag, int argc, char *argv[])
 			else
 				ret = nand_write_skip_bad(nand, off, &size,
 							  (u_char *)addr);
-		} else if (!strcmp(s, ".oob")) {
+		} 
+#ifdef ENABLE_CMD_NAND_YAFFS
+		else if ( s != NULL && !strcmp(s, ".yaffs")){
+			if(read)
+				printf("no read function. ");
+			else
+			{
+				nand->rw_oob = 1;
+				nand->skipfirstblk = 1;
+				ret = nand_write_skip_bad(nand, off, &size, (u_char *)addr);
+				nand->skipfirstblk = 0;
+				nand->rw_oob = 0;
+			}
+		}
+#endif
+	   	else if (!strcmp(s, ".oob")) {
 			/* out-of-band data */
 			mtd_oob_ops_t ops = {
 				.oobbuf = (u8 *)addr,
