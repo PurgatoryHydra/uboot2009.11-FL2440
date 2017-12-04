@@ -1,0 +1,113 @@
+#ifndef __s3c2440_H
+#define __s3c2440_H
+
+#define WTCON 		0x53000000
+#define INTMSK 		0x4A000008
+#define INTSUBMSK 	0x4A00001C
+
+#define LOCKTIME 	0x4c000000
+#define MPLLCON 	0x4C000004
+#define CLKDIVN 	0x4C000014
+#define FCLK 		320000000
+#define M_MDIV 		127
+#define M_PDIV 		2
+#define M_SDIV 		1
+
+#define BWSCON 		0x48000000
+#define BANKCON6 	0x4800001C
+#define BANKCON7 	0x48000020
+#define REFRESH 	0x48000024
+#define BANKSIZE 	0x48000028
+#define MRSRB6 		0x4800002C
+#define MRSRB7 		0x48000030
+
+#define ADDRESS_STACK_BASE 	0x33FF8000
+#define ADDRESS_STACK_USER 	(ADDRESS_STACK_BASE - 0x3800)
+#define ADDRESS_STACK_SVC 	(ADDRESS_STACK_BASE - 0x2800)
+#define ADDRESS_STACK_UNDEF (ADDRESS_STACK_BASE - 0x2400)
+#define ADDRESS_STACK_ABORT (ADDRESS_STACK_BASE - 0x2000)
+#define ADDRESS_STACK_IRQ 	(ADDRESS_STACK_BASE - 0x1000)
+#define ADDRESS_STACK_FIQ 	(ADDRESS_STACK_BASE - 0x0000)
+
+#define MODE_USER 	0x10
+#define MODE_FIQ 	0x11
+#define MODE_IRQ 	0x12
+#define MODE_SVC 	0x13
+#define MODE_ABORT 	0x17
+#define MODE_UNDEF 	0x1b
+#define MODE_MASK 	0x1f
+#define NOINT 		0xc0
+
+/* GPIO Registers */
+#define GPACON 		0x56000000
+#define GPBCON 		0x56000010
+#define GPCCON 		0x56000020
+#define GPDCON 		0x56000030
+#define GPECON 		0x56000040
+#define GPFCON 		0x56000050
+#define GPGCON 		0x56000060
+#define GPHCON 		0x56000070
+#define GPJCON 		0x560000d0
+
+#define GPADAT 		0x56000004
+#define GPBDAT 		0x56000014
+#define GPCDAT 		0x56000024
+#define GPDDAT 		0x56000034
+#define GPEDAT 		0x56000044
+#define GPFDAT 		0x56000054
+#define GPGDAT 		0x56000064
+#define GPHDAT 		0x56000074
+#define GPJDAT 		0x560000d4
+
+#define GPBUP 		0x5600001C
+
+/* UART Registers */
+
+#define ULCON0 		0x50000000
+#define ULCON1 		0x50004000
+#define ULCON2 		0x50008000
+
+#define UCON0 		0x50000004
+#define UCON1 		0x50004004
+#define UCON2 		0x50008004
+
+#define UFCON0 		0x50000008
+#define UFCON1 		0x50004008
+#define UFCON2 		0x50008008
+
+#define UMCON0 		0x5000000C
+#define UMCON1 		0x5000400C
+
+#define UTRSTAT0 	0x50000010
+#define UTRSTAT1 	0x50004010
+#define UTRSTAT2 	0x50008010
+
+#define UERSTAT0 	0x50000014
+#define UERSTAT1 	0x50004014
+#define UERSTAT2 	0x50008014
+
+#define UFSTAT0 	0x50000018
+#define UFSTAT1 	0x50004018
+#define UFSTAT2 	0x50008018
+
+#define UMSTAT0 	0x5000001C
+#define UMSTAT1 	0x5000401C
+
+#define UTXH0 		0x50000020
+#define UTXH1 		0x50004020
+#define UTXH2 		0x50008020
+
+#define URXH0 		0x50000024
+#define URXH1 		0x50004024
+#define URXH2 		0x50008024
+
+#define UBRDIV0 	0x50000028
+#define UBRDIV1 	0x50004028
+#define UBRDIV2 	0x50008028
+
+#define __IO 		*(volatile unsigned long *)
+
+#define Damascus_Assert
+
+#endif
+

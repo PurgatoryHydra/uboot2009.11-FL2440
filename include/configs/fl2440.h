@@ -30,8 +30,6 @@
 #define __CONFIG_H
 
 
-#define CONFIG_SKIP_LOWLEVEL_INIT
-#define CONFIG_SKIP_RELOCATE_UBOOT
 
 /*
  * High Level Configuration Options

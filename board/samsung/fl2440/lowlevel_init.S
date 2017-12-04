@@ -120,10 +120,10 @@
 /* REFRESH parameter */
 #define REFEN			0x1	/* Refresh enable */
 #define TREFMD			0x0	/* CBR(CAS before RAS)/Auto refresh */
-#define Trp			0x0	/* 2clk */
+#define Trp			0x1	/* 3clk */
 #define Trc			0x3	/* 7clk */
 #define Tchr			0x2	/* 3clk */
-#define REFCNT			1113	/* period=15.6us, HCLK=60Mhz, (2048+1-15.6*60) */
+#define REFCNT			489	/* period=15.6us, HCLK=60Mhz, (2048+1-15.6*60) */
 /**************************************/
 
 _TEXT_BASE:
@@ -134,9 +134,10 @@ lowlevel_init:
 	/* memory control configuration */
 	/* make r0 relative the current location so that it */
 	/* reads SMRDATA out of FLASH rather than memory ! */
-	ldr     r0, =SMRDATA
-	ldr	r1, _TEXT_BASE
-	sub	r0, r0, r1
+/*	ldr     r0, =SMRDATA*/
+/*	ldr	r1, _TEXT_BASE*/
+	/*sub	r0, r0, r1*/
+	adrl 	r0, SMRDATA
 	ldr	r1, =BWSCON	/* Bus Width Status Controller */
 	add     r2, r0, #13*4
 0:
