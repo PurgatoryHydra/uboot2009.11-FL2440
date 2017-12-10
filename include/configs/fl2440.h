@@ -108,8 +108,9 @@
 #define CONFIG_NETMASK      255.255.0.0
 #define CONFIG_IPADDR		169.254.255.38
 #define CONFIG_SERVERIP		169.254.255.222
-/*#define CONFIG_BOOTFILE	"elinos-lart" */
-/*#define CONFIG_BOOTCOMMAND	"tftp; bootm" */
+#define CONFIG_BOOTFILE		"uImage" 
+#define CONFIG_FILEADDR 	32000000
+#define CONFIG_BOOTCOMMAND	"tftp; bootm"
 
 #if defined(CONFIG_CMD_KGDB)
 #define CONFIG_KGDB_BAUDRATE	115200		/* speed to run kgdb serial port */

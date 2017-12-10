@@ -46,10 +46,9 @@ void NAND_ReadPage(unsigned int block, unsigned int pageIndex, unsigned long *bu
 void NAND_MovingFromNANDToRAM(unsigned long currentAddress, unsigned long targetAddress, unsigned long size)
 {
 	unsigned char i = 0;
-	unsigned int counterPage = 128;
-	unsigned long *dst = 0x33f80000;
+	unsigned int counterPage = size/2048 + 1;
+	unsigned long *dst = targetAddress;
 	NAND_Init();
-	__IO GPBCON = 0x01010101;
 	for(i = 0 ; i < counterPage; i++ )
 	{
 		NAND_ReadPage(0, i, dst);
